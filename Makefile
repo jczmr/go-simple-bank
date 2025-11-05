@@ -4,7 +4,7 @@ postgres:
 createdb:
 	docker exec -it simplebank createdb --username=root --owner=root simple_bank
 
-dropedb:
+dropdb:
 	docker exec -it simplebank dropdb simple_bank
 
 .PHONY: postgres createdb dropdb
