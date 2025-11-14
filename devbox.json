@@ -1,6 +1,9 @@
 {
   "$schema":  "https://raw.githubusercontent.com/jetify-com/devbox/0.16.0/.schema/devbox.schema.json",
-  "packages": ["go@1.21.1"],
+  "packages": 
+    ["go@1.21.1", 
+    "sqlc@1.30.0"
+  ],
   "shell": {
     "init_hook": [
       "export GOBIN=$(git rev-parse --show-toplevel)/bin",
