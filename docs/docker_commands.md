@@ -16,7 +16,12 @@ docker run --name simplebank -dp 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PAS
 
 
 ## interact with the container from a terminal
+
+### connect with psql to postgres database 
 docker exec -it simplebank psql -U root
+
+### connect with psql whit a specific database
+docker exec -it simplebank psql -U root -d simple_bank
 
 ## Check the logs of the container
 docker logs simplebank
