@@ -19,7 +19,10 @@ sqlc:
 test:
 	go test -v -cover ./...
 
+testcover:
+	go test ./... -coverprofile cover.out && go tool cover -html=cover.out -o coverage.html && wslview coverage.html
+
 server:
 	go run main.go
 	
-.PHONY: postgres createdb dropdb migrateup migratedown sqlc test
+.PHONY: postgres createdb dropdb migrateup migratedown sqlc test testcover server
