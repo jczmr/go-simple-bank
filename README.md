@@ -32,7 +32,7 @@ go-simple-bank is a sample banking backend service: account creation, transfers,
 
 ### Prerequisites
 
-- Go 1.21.1
+- Go 1.24.10
 - PostgreSQL
 - make
 - Git
