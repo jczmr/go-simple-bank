@@ -25,8 +25,14 @@ sqlc:
 test:
 	go test -v -cover ./...
 
-testcover:
-	go test ./... -coverprofile cover.out && go tool cover -html=cover.out -o coverage.html && wslview coverage.html
+# Define the list of packages to include for coverage
+COVER_PKGS := ./api/...,./token/...,./util/...,./db/sqlc/...
+
+cover:
+	@echo "Running tests and generating coverage report..."
+	go test -coverpkg=$(COVER_PKGS) ./... -coverprofile cover.out
+	go tool cover -html=cover.out -o coverage.html
+	wslview coverage.html
 
 server:
 	go run main.go
@@ -34,4 +40,4 @@ server:
 mock:
 	mockgen -package mockdb -destination db/mock/store.go github.com/jczmr/go-simple-bank/db/sqlc Store
 	
-.PHONY: postgres createdb dropdb migrateup migratedown  migrateup1 migratedown1 sqlc test testcover server mock
+.PHONY: postgres createdb dropdb migrateup migratedown  migrateup1 migratedown1 sqlc test cover server mock

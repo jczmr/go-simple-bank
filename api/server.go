@@ -11,6 +11,8 @@ import (
 	"github.com/jczmr/go-simple-bank/util"
 )
 
+const accounts_id_endpoint = "/accounts/:id"
+
 // Server serves HTTP requests for our banking service.
 type Server struct {
 	config     util.Config
@@ -46,13 +48,15 @@ func (server *Server) setupRouter() {
 	router.POST("/users", server.createUser)
 	router.POST("/users/login", server.loginUser)
 
-	router.POST("/accounts", server.createAccount)
-	router.GET("/accounts/:id", server.getAccount)
-	router.GET("/accounts", server.listAccount)
-	router.PUT("/accounts/:id", server.updateAccount)
-	router.DELETE("/accounts/:id", server.deleteAccount)
+	authRoutes := router.Group("/").Use(authMiddleware(server.tokenMaker))
 
-	router.POST("/transfers", server.createTransfer)
+	authRoutes.POST("/accounts", server.createAccount)
+	authRoutes.GET(accounts_id_endpoint, server.getAccount)
+	authRoutes.GET("/accounts", server.listAccounts)
+	authRoutes.PUT(accounts_id_endpoint, server.updateAccount)
+	authRoutes.DELETE(accounts_id_endpoint, server.deleteAccount)
+
+	authRoutes.POST("/transfers", server.createTransfer)
 
 	server.router = router
 }
