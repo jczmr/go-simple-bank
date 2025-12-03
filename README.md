@@ -56,6 +56,10 @@ go run main.go
 
   Method   |  Path                        |  Description
   -------- | ---------------------------- | ---------------------
+  POST     | /users                       | create user
+  POST     | /users/login                 | login user
   POST     | /accounts                    | Create account
   GET      | /accounts/:id                | Get account details
   GET      | /accounts                    | Get list of accounts
+  PUT      | /accounts/:id                | Update account
+  DELETE   | /accounts/:id                | Delete account
