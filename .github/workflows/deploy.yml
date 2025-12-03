@@ -1,0 +1,47 @@
+name: Deploy to production
+
+on:
+  push:
+    branches: 
+      - main
+env:
+  AWS_REGION : "sa-east-1"
+
+jobs:
+  build-and-push:
+    name: Build image
+    runs-on: ubuntu-latest
+    permissions:
+        # Required to generate the OIDC JSON Web Token (JWT)
+        id-token: write
+        # Required for actions/checkout
+        contents: read
+
+    steps:
+    # 1. Checkout Code
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # 2. Configure AWS Credentials using OIDC
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v5.1.1
+      with:
+        # The ARN of the IAM Role created in AWS
+        role-to-assume: arn:aws:iam::919246573939:role/github-action
+        aws-region: ${{ env.AWS_REGION }}
+        role-session-name: GitHubActionsSession
+
+    # 3. Log in to ECR (using the temporary credentials from Step 2)
+    - name: Login to Amazon ECR
+      uses: aws-actions/amazon-ecr-login@v2
+      id: login-ecr
+
+    # 4. Build and Push the Docker Image
+    - name: Build, tag, and push image to Amazon ECR
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: jmcz/simplebank
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
