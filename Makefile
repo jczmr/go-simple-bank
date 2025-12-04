@@ -2,7 +2,7 @@ DB_USER := root
 DB_PASS := secret
 DB_HOST := localhost
 DB_NAME := simple_bank
-SSL_MODE := sslmode=disable 
+SSL_MODE := sslmode=disable
 # use sslmode=require to connect to AWS RDS PostgreSQL
 
 postgres:
