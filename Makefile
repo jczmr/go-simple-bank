@@ -2,7 +2,8 @@ DB_USER := root
 DB_PASS := secret
 DB_HOST := localhost
 DB_NAME := simple_bank
-SSL_MODE := sslmode=disable # use sslmode=require to connect to AWS RDS PostgreSQL
+SSL_MODE := sslmode=disable 
+# use sslmode=require to connect to AWS RDS PostgreSQL
 
 postgres:
 	docker run --name simplebank_postgres --network bank-network -dp 5432:5432 -e POSTGRES_USER=$(DB_USER) -e POSTGRES_PASSWORD=$(DB_PASS) -v simplebank_postgres_data:/var/lib/postgresql/data postgres:14.19-alpine3.21
