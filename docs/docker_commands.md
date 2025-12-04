@@ -127,7 +127,7 @@ Usage:  docker network connect [OPTIONS] NETWORK CONTAINER
 docker network connect bank-network simplebank_postgres
 
 
-## contect simplebank container using the option networw to use the new custome network bank_network
+## contect simplebank container using the option network to use the new custome network bank_network
 docker run --name simplebank --network bank-network -p 8080:8080 -e GIN_MODE=release -e DB_SOURCE="postgresql://root:secret@simplebank_postgres:5432/simple_bank?sslmode=disable" simplebank:0.3
 
 
