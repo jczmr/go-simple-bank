@@ -1,23 +1,27 @@
+DB_USER := root
+DB_PASS := secret
+DB_HOST := localhost
+
 postgres:
-	docker run --name simplebank_postgres --network bank-network -dp 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -v simplebank_postgres_data:/var/lib/postgresql/data postgres:14.19-alpine3.21
+	docker run --name simplebank_postgres --network bank-network -dp 5432:5432 -e POSTGRES_USER=$(DB_USER) -e POSTGRES_PASSWORD=$(DB_PASS) -v simplebank_postgres_data:/var/lib/postgresql/data postgres:14.19-alpine3.21
 
 createdb:
-	docker exec -it simplebank_postgres createdb --username=root --owner=root simple_bank
+	docker exec -it simplebank_postgres createdb --username=$(DB_USER) --owner=$(DB_USER) simple_bank
 
 dropdb:
 	docker exec -it simplebank_postgres dropdb simple_bank
 
 migrateup:
-	migrate -path db/migration -database "postgres://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose up
+	migrate -path db/migration -database "postgres://$(DB_USER):$(DB_PASS)@$(DB_HOST):5432/simple_bank?sslmode=disable" -verbose up
 
 migrateup1:
-	migrate -path db/migration -database "postgres://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose up 1
+	migrate -path db/migration -database "postgres://$(DB_USER):$(DB_PASS)@$(DB_HOST):5432/simple_bank?sslmode=disable" -verbose up 1
 
 migratedown:
-	migrate -path db/migration -database "postgres://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose down
+	migrate -path db/migration -database "postgres://$(DB_USER):$(DB_PASS)@$(DB_HOST):5432/simple_bank?sslmode=disable" -verbose down
 
 migratedown1:
-	migrate -path db/migration -database "postgres://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose down 1
+	migrate -path db/migration -database "postgres://$(DB_USER):$(DB_PASS)@$(DB_HOST):5432/simple_bank?sslmode=disable" -verbose down 1
 
 sqlc:
 	sqlc generate
