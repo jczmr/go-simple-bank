@@ -12,7 +12,7 @@ A simple banking service built in Golang --- part of a "Backend Master Class" st
     - [Installation](#installation)
     - [Running the service](#running-the-service)
 - [API Enpoints](#api-endpoints)
-
+- [Examples](#examples)
 
 ## About
 
@@ -63,3 +63,6 @@ go run main.go
   GET      | /accounts                    | Get list of accounts
   PUT      | /accounts/:id                | Update account
   DELETE   | /accounts/:id                | Delete account
+
+## Examples
+
